@@ -1,0 +1,160 @@
+---
+title: "Netherlands Migration Profile"
+author: "Nancy Kirkman"
+date: "2022-28-22"
+output: 
+  html_document:
+    toc: TRUE
+    theme: spacelab
+    toc_float: TRUE
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, echo= FALSE, cache= TRUE}
+knitr::opts_chunk$set(echo = TRUE,  warning= FALSE, message= FALSE)
+```
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(plotly)
+library(DT)
+library(rmarkdown)
+```
+
+
+```{r, include=FALSE}
+provinces2021<- read_csv("netherlands provinces.csv")
+immigrants<- read.csv("C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\immigrants netherlands.csv")
+emigrants<- read.csv("C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\netherlands emigration.csv")
+gross_migration <- read.csv("C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\netherlands GMR.csv")
+net_migration_rate <- read.csv("C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\netherlands NMR.csv")
+migration_efficiency_ratio <- read.csv("C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\migration efficiency ratio.csv")
+urban_population <- read.csv("C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\netherlands urban pop.csv")
+```
+
+![](C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\netherlands migration cover image.jpg)
+
+
+### Internal & International Migration 
+According to Poston & Bouvier, **internal** migration refers to "the change of permanent residence within a country, involving a geographical move that crosses a political boundary, usually a county ot county-type geographical unit" (P&B 215). 
+**International** migration, on the other hand, is defined by Poston & Bouvier as "migration that occurs between countries" (P&B 236). 
+Both internal and international migration can experience in-migration and out-migration. 
+
+#### Figure 1: Inhabitants of the twelve Dutch Provinces in 2022
+
+![](C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\provinces by inhabitants 1.png)
+
+### In- Migration 
+In-migration is the number of people entering a country or location. According to Teresa Sullivan, in-migration contributes to the increase of population in the area of destination in two ways: "1) the net number of in-migrants constitutes a **direct** effect of population increase. 2) the number of children born to the in-migrants after their arrival is the **indirect** effect" (Sullivan 10.5.22, slide 16). 
+
+#### Figure 2
+
+```{r, echo = FALSE}
+immigration_graph <- ggplot(immigrants, aes(x = Year, y = Number.of.in.migrants))+geom_point()+geom_line()+labs(x = "Year", y= "Number of In-Migrants", title= "Number of in-migrants coming to the Netherlands from 2000 - 2021")
+ggplotly(immigration_graph)
+```
+
+**Figure 2** shows the increase in the number of immigrants the Netherlands has seen over the last 20 years. Between 2001 and 2005 there was a small decrease, and then the number of in-migrants steadily increased since then, with a sharp spike in the year 2019. 
+
+A country's in-migration rate can be calculated by dividing the number of in-migrants for that year by the population, and then multiplying that number by one thousand. 
+
+### Out- Migration 
+Out-migration refers to "the migration of persons from an area of origin" (P & B 218). 
+A country's out-migration rate can be calculated by dividing the number of out-migrants for that year by the population, and then multiplying that number by one-thousand. 
+
+#### Figure 3
+```{r, echo = FALSE}
+emigration_graph <- ggplot(emigrants, aes(x = Year, y = Number.of.Out.Migrants))+geom_point()+geom_line()+labs(x = "Year", y= "Number of Out-Migrants", title= "Number of Out-Migrants leaving the Netherlands from 2000 - 2021")
+ggplotly(emigration_graph)
+```
+
+Looking at **Figure 3**, one can see that out-migration from the Netherlands has increased in the last 20 years, with a slight drop in the number of out-migrants from 2006 to 2009. 
+
+### Gross Migration 
+Gross migration is "the sum of migration for an area and is comprised of the in-migration into the area plus the out-migration from the area" (P & B 218).
+A country's gross migration rate (GMR) can be calculated by adding the number of in-migrants and out-migrants for that year, then dividing by the population for that year, and multiplying that number by one thousand. **Figure 4** below shows the GMR in the Netherlands between the years 2000 and 2021 (calculated by author).
+
+#### Figure 4
+```{r, echo = FALSE}
+GMR_graph <- ggplot(gross_migration, aes(x = Year, y = Gross.Migration.Rate))+geom_point()+geom_line()+labs(x = "Year", y= "Gross Migration Rate", title= "Gross Migration Rate in the Netherlands from 2000 - 2021")
+ggplotly(GMR_graph)
+```
+
+According to **Figure 4**, one can see that the Netherlands experienced a significant increase in GMR between the years 2005 and 2019, with a sharp decline occurring between 2019 and 2020, which can be accounted for by the decline in in-migrants entering the Netherlands in 2020 compared to 2019. 
+
+### Net Migration 
+Net migration refers to "the migration balance of an area, consisting of the number of in-migrants minus the number of out-migrants; the net balance may be positive (representing a net population gain to the area), or negative (representing a loss), or, conceivably, zero" (P & B 218). 
+A country's net migration rate can be calculated by subtracting the number of out-migrants from the number of in-migrants, then dividing that number by the population for the year, and multiplying that number by one thousand. 
+Below, **Figure 5** displays the Net Migration Ration (NMR) in the Netherlands from the year 2000 to 2021 (Calculated by author)
+
+#### Figure 5
+```{r, echo = FALSE}
+NMR_graph <- ggplot(net_migration_rate, aes(x = Year, y = Net.Migration.Ratio))+geom_point()+geom_line()+labs(x = "Year", y= "Net Migration Ratio", title= "Net Migration Ratio in the Netherlands from 2000 - 2021")
+ggplotly(NMR_graph)
+```
+
+Between the years 2001 and 2005, the Netherlands' Net Migration Ratio took a sharp decline, meaning at the time the country was seeing much more out-migration than in-migration. After 2005, the country's NMR has been increasing incrementally, and is currently at one of the highest points it has seen in the last 20 years. 
+
+### Migration Efficiency Ratio 
+Migration efficiency is "an area's net migration divided by its gross migration. Migration in area may be efficient or inefficient. For example, if there has been a lot of in-migration and little out-migration, then the migration is positively efficient" (P & B 218). 
+To calculate the migration efficiency ratio, you divide the net-migration number (in-migrants minus out-migrants) by the gross migration number (in-migrants plus out-migrants), and then multiply that number by 100
+Below, **Figure 6** shows the Migration Efficiency Ratio for the Netherlands from the years 2000 - 2021 (calculated by author)
+
+
+#### Figure 6 
+```{r, echo = FALSE}
+MER_graph <- ggplot(migration_efficiency_ratio, aes(x = Year, y = Migration.Efficiency.Ratio))+geom_point()+geom_line()+labs(x = "Year", y= "Migration Efficiency Ratio", title= "Migration Efficiency Ratio in the Netherlands from 2000 - 2021")
+ggplotly(MER_graph)
+```
+As shown in **Figure 6** above, the Migration Efficiency Ratio in the Netherlands between the years 2000 and 2021 have varied greatly. Between the years 2003 and 2006, migration was negatively efficient. For the other years, migration has been positively efficient. 
+
+### Population Pyramid 
+**Figure 7** below shows the population pyramid for the Netherlands for the year 2020. This population pyramid appears to be a mix between a stationary and a constrictive population pyramid, showing aspects of both. Overall, both of the sexes are split pretty evenly and there does not appear to be a surplus of one sex over the other. The most represented age group is the population between the ages of 50 and 54. There does not appear a certain age cohort that has experienced significant rates of low fertility. The least represented age group is the population between the ages of 80 and 100, which makes sense because this population is much more vulnerable to death as death is related closely to age. 
+
+#### Figure 7
+![](C:\\Users\\Nancy Kirkman\\OneDrive\\Desktop\\DS 3001\\Netherlands-Population-Pyramid (1).jpg)
+
+### Demographic Transition Theory 
+The Netherlands is the fourth stage of demographic transition theory, also known as the incipient stage of demographic transition theory. This phase is characterized by low fertility and low mortality rates, both of which the Netherlands is currently experiencing and has been for quite some time. 
+
+### Urbanization
+#### Percentages of the population living in an urban area
+#### Figure 8
+```{r, echo = FALSE}
+urban <- ggplot(urban_population, aes(x = Year, y = Urban.Population))+geom_point()+geom_line()+labs(x = "Year", y= "Urban Population (% of total population)", title= "Urban population as a % of the Total Population in the Netherlands from 1960 - 2021")
+ggplotly(urban)
+```
+As seen above, **figure 8** graphs the percentage of the population in the Netherlands living in urban areas (as a percent of the total population) from the years 1960 to 2021. In the year 1960, just under 60% of the population was living in an urban area. Over time, this number has grown to 92%, meaning that a very small portion of the population in the Netherlands in the present day is living in a rural area. 
+
+### Population Policy in the Netherlands
+A population policy is a "deliberately constructed arrangement or program through which governments influence, directly or indirectly, demographic change." (Sullivan, 4.28.22, 4)
+Typically, population policies are strategies implemented by the government, or less frequently, NGOs, to attain specific goals regarding population change. Normally, countries exhibiting "demographic conditions of too high or too low growth with often develop policies whose goals are to try to restore the demographic balance." (Sullivan, 4.28.22, 4)
+During WWI, up to 900,000 Belgians fled to the Netherlands, yet most of them returned following the end of the conflict. In the 1930s, many Jews and other refugees arrived from Germany and Austria, and by 1940 there were about 20,000 refugees from those two countries in the Netherlands. 
+After WWII, immigration resulting from the Dutch colonial heritage began, including Dutch returnees and the descendants of those who had lived and worked in Indonesia, Suriname and the Caribbean. Between 1945 and 1965, some 300,000 people moved from Indonesia to the Netherlands.
+Between the end of WWII and 1974, the Netherlands received guest workers through labor recruitment programs. These workers came primarily from Mediterranean countries, including Spain, Turkey, Morocco, and Yugoslavia. 
+In contemporary times, nearly 44,000 asylum requests were lodged in the Netherlands in 2015, with roughly 18,700 applications coming from Syria and 7,400 coming from Eritrea. The Netherlands experiences four main streams of immigration: asylum seekers, family reunification arrivals, intra-EU migration (particularly from Poland), and longstanding migration from the Caribbean parts of the previous imperial Dutch kingdom. 
+The issue of naturalization, and dual citizenship in particular, has emerged as a point of debate in the Dutch government. The Netherlands practices both jus sanguinis (citizenship is passed through parents), as well as a limited form of jus solis (citizenship is acquired by children born in the Netherlands to parents who were also born in the Netherlands, even if those parents do not have Dutch citizenship themselves). Dutch nationals who take on another citizenship generally have to forfeit their Dutch passport. Also, most of those who become Dutch by naturalization must surrender their other nationality. 
+Regarding migrant children, in 2012 the Labor Party coalition government established a Children's Amnesty regulation, which in essence grants amnesty for children who had lived without legal status in the Netherlands for five or more years. 
+In 2017, a coalition agreement was passed which largely reflected the coalition's goals of pulling to the right, in an effort to deal with the perception of stronger anti-immigrant sentiment throughout the nation.
+
+
+### Sources Cited
+Click on **these** links below to access the data used to compile this report 
+
+1. [Statista: Net Migration Rate in the Netherlands from 1950 to 2021](https://www.statista.com/statistics/1324912/netherlands-migration-rate/)
+
+2. [Statista: Immigration, emigration, and migration balance in the Netherlands from 1995 to 2021](https://www.statista.com/statistics/525434/netherlands-total-immigration-total-emigration-and-migration-balance/)
+
+3. [Poston & Bouvier: Population and Society](books.google.com/books/about/Population_and_Society.html?id=CR-EXq4y8XAC)
+
+4. [Statista: Total number of inhabitants in the Netherlands in 2022, by province](https://www.statista.com/statistics/753196/total-number-of-inhabitants-in-the-netherlands-by-province/)
+
+5. [Demographic Transition: The Netherlands](https://www.ipl.org/essay/Demographic-Transition-In-Netherland-PCHZULZKUU#:~:text=Netherlands%20experiences%20low%20birth%20rates%20and%20low%20death,developed%20countries%20with%20low%20birth%20and%20death%20rates.)
+
+6. [World Bank: Urban Population in the Netherlands](https://data.worldbank.org/indicator/SP.URB.TOTL.IN.ZS?locations=NL)
+
+7. [MigrationPolicy.org: Migration Policies in the Netherlands](https://www.migrationpolicy.org/country-resource/netherlands)
+
